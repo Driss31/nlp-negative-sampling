@@ -8,29 +8,28 @@ help:
 
 .PHONY: ci-test
 ci-test:
-	poetry run isort --recursive --check-only routing_engine tests
-	poetry run black --check routing_engine tests
+	poetry run isort --recursive --check-only nlp_negative_sampling tests
+	poetry run black --check nlp_negative_sampling tests
 	make lint
 	make mypy
 	make pytest
-	make yamllint
 
 .PHONY: format
 format:
-	poetry run isort -rc routing_engine tests
-	poetry run black routing_engine tests
+	poetry run isort -rc nlp_negative_sampling tests
+	poetry run black nlp_negative_sampling tests
 
 .PHONY: lint
 lint:
-	poetry run flake8 routing_engine tests
+	poetry run flake8 nlp_negative_sampling tests
 
 .PHONY: mypy
 mypy:
-	poetry run mypy routing_engine tests
+	poetry run mypy nlp_negative_sampling tests
 
 .PHONY: pytest
 pytest:
 	poetry run pytest
 
 .PHONY: test
-test: format lint mypy pytest yamllint
+test: format lint mypy pytest
