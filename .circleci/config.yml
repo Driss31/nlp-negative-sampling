@@ -1,23 +1,33 @@
 # For a detailed guide to building and testing on iOS, read the docs:
 # https://circleci.com/docs/2.0/testing-ios/
 
-version: 2.1
+version: 2
 
 jobs:
-  build:
-
-    macos:
-      xcode: 11.0.0 # Specify the Xcode version to use
-
+  ci-test:
+    working_directory: /home/circleci/nlp-negative-sampling
+    docker:
+      - image: circleci/python:3.8.1-buster
     steps:
       - checkout
-      - run: pod install # Install CocoaPods dependencies
-      - run: fastlane scan # Run tests using Fastlane
+      - run:
+          name: Install System Dependencies
+          command: sudo apt-get update && sudo apt-get install make -y
+      - run:
+          name: Install poetry
+          command: pip install poetry==1.0.5
+      - run:
+          name: Virtual env
+          command: poetry config virtualenvs.create false
+      - run:
+          name: Install dependencies via poetry
+          command: sudo poetry install --no-interaction --no-ansi
+      - run:
+          name: Run tests
+          command: sudo poetry run make ci-test
 
-      # Collect XML test results data to show in the UI, and save the same XML
-      # files under test-results folder in the Artifacts tab
-      - store_test_results:
-          path: test_output
-      - store_artifacts:
-          path: test_output
-          destination: scan-output
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - ci-test
