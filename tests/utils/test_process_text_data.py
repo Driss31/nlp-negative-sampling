@@ -1,5 +1,9 @@
 """Tests for text processing."""
+from collections import Counter
+
 from nlp_negative_sampling.utils.process_text_data import (
+    count_words,
+    flatten_list,
     get_list_lower_words,
     keep_alphabetical_words,
     remove_punctuation,
@@ -8,7 +12,7 @@ from nlp_negative_sampling.utils.process_text_data import (
 
 
 def test_get_list_lower_words():
-    """Should return a list of lower words"""
+    """Should return a list of lower words."""
     answer = get_list_lower_words(
         sent="The U.S. Centers for Disease Control and Prevention initially advised school"
     )
@@ -57,7 +61,7 @@ def test_remove_punctuation():
 def test_keep_alphabetical_words():
     """Should return only alphabetical words."""
     answer = keep_alphabetical_words(
-        sent=["the", "us", "centers", "for", "10", "302029", "disease",]
+        sent=["the", "us", "centers", "for", "10", "302029", "disease"]
     )
 
     assert answer == [
@@ -171,3 +175,17 @@ def test_tokenize_file(tmp_path):
             "you",
         ],
     ]
+
+
+def test_flatten_list():
+    """Should return a list made of a list of lists."""
+    answer = flatten_list(list_of_lists=[["A", "B", "C"], ["D"], ["E", "F", "G"]])
+
+    assert answer == ["A", "B", "C", "D", "E", "F", "G"]
+
+
+def test_count_words():
+    """Return a Counter of words in list."""
+    answer = count_words(["A", "A", "B", "B", "A", "A", "C"])
+
+    assert answer == Counter({"A": 4, "B": 2, "C": 1})

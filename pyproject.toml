@@ -9,6 +9,7 @@ python = "3.8.1"
 numpy = "1.18.5"
 pandas = "1.0.4"
 argparse = "1.4.0"
+scipy = "1.4.1"
 
 [tool.poetry.dev-dependencies]
 black = "19.10.b0"
