@@ -1,3 +1,15 @@
 #https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
 
 .idea/
+
+
+# Unit test / coverage reports
+htmlcov/
+reports
+coverage.xml
+.coverage
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+__pycache__
