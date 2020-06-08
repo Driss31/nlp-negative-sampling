@@ -1,6 +1,7 @@
 """Function to compute gradient."""
-import numpy as np
 import logging
+
+import numpy as np
 from scipy.special import expit
 
 
@@ -13,7 +14,7 @@ def gradient(theta, nEmbed, positive_pairs, negative_pairs, nb_words, nb_context
     words_matrix = theta[: nEmbed * nb_words].reshape(nb_words, nEmbed)
 
     # Embedding matrix of contextes
-    contexts_matrix = theta[nEmbed * nb_words:].reshape(nb_contexts, nEmbed)
+    contexts_matrix = theta[nEmbed * nb_words :].reshape(nb_contexts, nEmbed)
 
     logging.info("Start computing gradient...")
 
@@ -33,8 +34,12 @@ def gradient(theta, nEmbed, positive_pairs, negative_pairs, nb_words, nb_context
         df_context = word * expit(-word.dot(context))
 
         # We actualize the gradient of the word and its context
-        grad[word_index * nEmbed: (word_index + 1) * nEmbed] += df_word
-        grad[(nb_words + context_index) * nEmbed: (nb_words + context_index + 1) * nEmbed] += df_context
+        grad[word_index * nEmbed : (word_index + 1) * nEmbed] += df_word
+        grad[
+            (nb_words + context_index)
+            * nEmbed : (nb_words + context_index + 1)
+            * nEmbed
+        ] += df_context
     logging.info("Done: Gradient updated using positive pairs.")
 
     # Negative pairs
@@ -53,8 +58,12 @@ def gradient(theta, nEmbed, positive_pairs, negative_pairs, nb_words, nb_context
         df_context = -word * expit(word.dot(context))
 
         # We actualize the gradient of the word and its negative context
-        grad[word_index * nEmbed: (word_index + 1) * nEmbed] += df_word
-        grad[(nb_words + context_index) * nEmbed: (nb_words + context_index + 1) * nEmbed] += df_context
+        grad[word_index * nEmbed : (word_index + 1) * nEmbed] += df_word
+        grad[
+            (nb_words + context_index)
+            * nEmbed : (nb_words + context_index + 1)
+            * nEmbed
+        ] += df_context
     logging.info("Done: Gradient updated using negative pairs.")
 
     return grad
