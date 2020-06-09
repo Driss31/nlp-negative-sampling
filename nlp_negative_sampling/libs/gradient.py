@@ -5,16 +5,22 @@ import numpy as np
 from scipy.special import expit
 
 
-def gradient(theta, n_embed, positive_pairs, negative_pairs, nb_words, nb_contexts):
+def compute_gradient(
+    theta, embedding_dim, positive_pairs, negative_pairs, count_words, count_contexts
+):
     """Compute gradient at init_theta for positive and negative pairs."""
     # Initialize gradient
     grad = np.zeros(len(theta))
 
     # Embedding matrix of target words
-    words_matrix = theta[: n_embed * nb_words].reshape(nb_words, n_embed)
+    words_matrix = theta[: embedding_dim * count_words].reshape(
+        count_words, embedding_dim
+    )
 
     # Embedding matrix of contextes
-    contexts_matrix = theta[n_embed * nb_words :].reshape(nb_contexts, n_embed)
+    contexts_matrix = theta[embedding_dim * count_words :].reshape(
+        count_contexts, embedding_dim
+    )
 
     logging.info("Start computing gradient...")
 
@@ -34,11 +40,11 @@ def gradient(theta, n_embed, positive_pairs, negative_pairs, nb_words, nb_contex
         df_context = word * expit(-word.dot(context))
 
         # We actualize the gradient of the word and its context
-        grad[word_index * n_embed : (word_index + 1) * n_embed] += df_word
+        grad[word_index * embedding_dim : (word_index + 1) * embedding_dim] += df_word
         grad[
-            (nb_words + context_index)
-            * n_embed : (nb_words + context_index + 1)
-            * n_embed
+            (count_words + context_index)
+            * embedding_dim : (count_words + context_index + 1)
+            * embedding_dim
         ] += df_context
     logging.info("Done: Gradient updated using positive pairs.")
 
@@ -58,11 +64,11 @@ def gradient(theta, n_embed, positive_pairs, negative_pairs, nb_words, nb_contex
         df_context = -word * expit(word.dot(context))
 
         # We actualize the gradient of the word and its negative context
-        grad[word_index * n_embed : (word_index + 1) * n_embed] += df_word
+        grad[word_index * embedding_dim : (word_index + 1) * embedding_dim] += df_word
         grad[
-            (nb_words + context_index)
-            * n_embed : (nb_words + context_index + 1)
-            * n_embed
+            (count_words + context_index)
+            * embedding_dim : (count_words + context_index + 1)
+            * embedding_dim
         ] += df_context
     logging.info("Done: Gradient updated using negative pairs.")
 
