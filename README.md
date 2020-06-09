@@ -1,69 +1,85 @@
-# NLP-Negative-Sampling
+# NLP-Negative-Sampling - Skip-gram (Word2Vec)
 
-# Skip-gram (Word2Vec)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-The goal of this project is to implement a skip-gram model with negative-sampling from scratch. We used a log-likelihood function that is maximised using Mini-Batch Gradient Ascent.
+I implement a [Skip Gram model with negative-sampling](https://arxiv.org/pdf/1402.3722.pdf) from scratch. I used the log-likelihood for the loss that I optimized using Mini-Batch Gradient Ascent.
 
-Input : path to a corpus of words (text file)
-Output: embedding of the words in the corpus
+I trained the model on a corpus of words - text file. I generated embedding of useful words then I computed similarity between some words. I also looked for the K most similar words to some pre-defined words that are in the corpus. See below.
 
-## Preprocessing data
 
-1. Text to sentences
-Uploading data which can be in different types (series of sentences or a whole text like a book). Then splitting sentences using '.', '!', '?' or ';' or '\n' respectively. And finally splitting words using whitespaces after removing punctuation and non-alpha.
-Removing also stopwords wasn't kept due to worse results
+## Dependencies
 
-2. Rare words pruning	
-Removing  words that appears less than minCount in the corpus. 
+Dependencies are managed by [Poetry](https://python-poetry.org/).
 
-3. High frequency words removing
-Remove words that occurs more than a ratio of the total number of words in the corpus
-This method hasn't been used in the final model due a worse results. (the ratio shall be chosen in a more sophisticated way than only with a grid search, which can lead to overfitting the corpus)
+#### Install dependencies
 
-## Skip Gram model
-
-1. Positive pairs 
-Fixing a window size winSize. Then generating positive pairs using target words and their contexts. 
-Keeping track of the words by assigning an index for each unique word (use of a dictionary for words and another for contexts)
-
-2. Negative pairs
-For each positive pair, choosing a number 'negativeRate' of random words to take from the corpus to make some negative pairs with the target word.
-Keeping track of these pairs using the two dictionaries made previously.
-
-## Train the model
-
-Two different methods were tested here. The second one gave us much better results.
-
-### Method 1 : Creating one and only one embedding for each word
-For a corpus containing 1000 unique words, we will compute a matrix of 1000 columns where each column contains the embedding of a unique word
-
-### Method 2 : Creating an embedding for words and one for contexts. Each word will have an embedding as a target word and another embedding as a context.
-For a corpus containing 1000 unique words, we will compute a matrix of 1000 + 1000 words where for each unique word, we will compute its embedding as a word and its embedding as a context.
-(The method is detailed in the report)
-
-For both methods the following steps are the same:
-1. Initializing \theta (vector of parameters to compute) randomly at the beginning (avoiding a vector of zeros). 
-2. Choosing number of epochs and batch size.
-3. Compute the gradient of the chosen objective function (formula given by 'Yoav Goldberg' and 'Omer Levy'[1])
-4. Update embeddings after each batch (using one of the two methods)
-
-## Running the model
-
-Example of command line to execute : 
+- With dev dependencies:
+```bash
+$ poetry install
 ```
-python skipGram.py --text train/news.en-00001-of-00100.txt --model train
+
+- Without dev dependencies:
+```bash
+$ poetry install --no-dev
 ```
-The command uses the news.en-00001-of-00100.txt as training set and saves the word embeddings in news file.
 
-Example :
-news.en-00001-of-00100.txt  file containing :
-- 50 000 sentences
-- 1 094 214 words
-- 5 576 574 positive pairs
-- 27 882 870 negative pairs
-- 14 033 unique words 
+#### Update dependencies
+```bash
+$ poetry update
+```
 
-Example of the out of the previous command
+## Sanity checks
+
+#### Run the code formatter
+
+This runs [isort](https://github.com/timothycrosley/isort/) and [Black](https://github.com/ambv/black/), the Python code formatter:
+```bash
+$ make format
+```
+
+Black reformats entire files in place, but doesn't reformat blocks that start with `# fmt: off` and end with `# fmt: on`.
+
+#### Run the linter
+
+This test checks syntax error and pip8 rules using [flake8](https://gitlab.com/pycqa/flake8):
+```bash
+$ make lint
+```
+
+#### Run the optional static type checker
+
+This runs `mypy`, the static type checker using the [PEP 484](https://www.python.org/dev/peps/pep-0484/) notation:
+```bash
+$ make mypy
+```
+
+## Model
+
+### Train
+
+Two different methods were tested here. The second had better results.
+
+#### Method 1
+Generate one and only one embedding for each word:
+For a 1000 unique words corpus, I computed a matrix of 1000 columns where each column contained the embedding of a unique word.
+
+#### Method 2
+Generate an embedding for each word once as a target word and again as a context word:
+For a 1000 unique words corpus, I generated a matrix of 1000 + 1000 words where I computed an for each unique word, an embedding as a word and an embedding as a context.
+
+#### Command line - Example
+
+```
+python skipGram.py --text_path train/news.en-00001-of-00100.txt --model_path train
+```
+`news.en-00001-of-00100.txt` is used as a training set and the trained model is saved in `train/`.
+
+1. news.en-00001-of-00100.txt  file containing:
+- 50 000 sentences.
+- 1 094 214 words.
+- 5 576 574 positive pairs.
+- 27 882 870 negative pairs.
+- 14 033 unique words.
 
 ```
 TRAINING: #epochs: 5, learning_rate: 0.01, batch size: 500, negativeRate: 5, winSize: 7 (+- 3)
@@ -79,17 +95,18 @@ Epoch 5/5
 100%|████████████████████████████████████| 11153/11153 [40:44<00:00,  4.66it/s]
 ```
 
-If the script crashes, we need to decrease the value of the learning rate.
+If the script crashes, the value of the learning rate should be decreased.
 
-## Testing the model
+### Evaluation
 
-To compute the similarity between two words, we used the cosine distance. The command to use is:
+To compute the similarity between two words, I used the cosine distance.
 
+#### Command line - Example
 ```
 python skipGram.py --text train/news.en-00001-of-00100.txt --model train --test
 ```
 
-Some examples obtained:
+#### Results
 ```
 "woman", "girl"    : 0.9140292408030202
 "woman", "man"     : 0.9003719041046656
@@ -100,9 +117,9 @@ Some examples obtained:
 "woman", "grizzly" : (Out of Vocabulary -> Grizzly) 0.2520814392860999
 ```
 
-We computed the similarity between the word "president" and all the words of the corpus, and printed its 10 most similar words :
+I computed the similarity between the word `president` and all the words of the corpus, and printed its K=10 most similar words:
 ```
-Similar words for president :
+Similar words to president :
 - prime : 0.8675725528021508
 - minister : 0.8577274635745533
 - barack : 0.8476139485196841
@@ -115,9 +132,9 @@ Similar words for president :
 - hillary : 0.7903915606521152
 ```
 
-10 most similar words to "financial":
+K=10 most similar words to `financial`:
 ```
-Similar words for financial :
+Similar words to financial :
 - economic : 0.8605254987941997
 - banking : 0.8543459085572801
 - housing : 0.8391836329291854
@@ -130,9 +147,9 @@ Similar words for financial :
 - european : 0.7891532793944722
 ```
 
-10 most similar words to "city":
+10 most similar words to `city`:
 ```
-Similar words for city :
+Similar words to city :
 - london : 0.8362202448038254
 - virginia : 0.8227038534431752
 - west : 0.8210187852324354
@@ -146,10 +163,10 @@ Similar words for city :
 ```
 
 
-10 most similar words to "barack":
+10 most similar words to `barack`:
 
 ```
-Similar words for barack :
+Similar words to barack :
 - clinton : 0.8967130891694537
 - obama : 0.873172647247945
 - hillary : 0.8581969823452125
@@ -161,6 +178,3 @@ Similar words for barack :
 - candidate : 0.8100265607338628
 - senator : 0.8096392472156546
 ```
-
-## References
-[1] Yoav Goldberg and Omer Levy _word2vec Explained: Deriving Mikolov et al.’s Negative-Sampling Word-Embedding Method_. 2014
