@@ -7,7 +7,7 @@ jobs:
   ci-test:
     working_directory: /home/circleci/nlp-negative-sampling
     docker:
-      - image: circleci/python:3.8.1-buster
+      - image: circleci/python:3.8.2-buster
     steps:
       - checkout
       - run:
