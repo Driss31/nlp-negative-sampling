@@ -1,8 +1,8 @@
 # NLP-Negative-Sampling - Skip-gram (Word2Vec)
-[![Python: 3.8.1](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/downloads/release/python-381/)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![CircleCI](https://circleci.com/gh/Driss31/nlp-negative-sampling.svg?style=svg)](https://circleci.com/gh/Driss31/nlp-negative-sampling)
-[![Code style: black](https://img.shields.io/codecov/c/gh/Driss31/nlp-negative-sampling)](https://codecov.io/github/Driss31/nlp-negative-sampling/commit/d774263f6377c98d83a9faa9523c3771adb2f602)
+[![](https://img.shields.io/codecov/c/gh/Driss31/nlp-negative-sampling)](https://codecov.io/github/Driss31/nlp-negative-sampling/)
+[![Python: 3.8.2](https://img.shields.io/badge/python-3.8.2-blue.svg)](https://www.python.org/downloads/release/python-381/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 I implement a [Skip Gram model with negative-sampling](https://arxiv.org/pdf/1402.3722.pdf) from scratch. I used the log-likelihood for the loss that I optimized using Mini-Batch Gradient Ascent.
 

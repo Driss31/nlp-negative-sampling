@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "nlp-negetive-sampling"
+name = "nlp-negative-sampling"
 version = "0.1.0"
 description = "Skip-gram Model with Negative-Sampling from Scratch"
 authors = ["Driss Debbagh-Nour <dndriss@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "3.8.1"
+python = "3.8.2"
 numpy = "1.18.5"
 pandas = "1.0.4"
 argparse = "1.4.0"
