@@ -5,7 +5,7 @@ import logging
 import pandas as pd
 
 from nlp_negative_sampling.libs.similarity import words_similarity
-from nlp_negative_sampling.libs.skip_gram import SkipGram
+from nlp_negative_sampling.models.skip_gram import SkipGram
 from nlp_negative_sampling.utils.input_handler import load_pairs
 from nlp_negative_sampling.utils.parser import get_command_line_parser
 from nlp_negative_sampling.utils.process_text_data import tokenize_file
