@@ -25,8 +25,6 @@ jobs:
       - run:
           name: Run tests
           command: sudo poetry run make ci-test
-      - run:
-          bash <(curl -s https://codecov.io/bash)
 
 workflows:
   version: 2
