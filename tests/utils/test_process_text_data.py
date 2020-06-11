@@ -6,6 +6,7 @@ from nlp_negative_sampling.utils.process_text_data import (
     flatten_list,
     get_list_lower_words,
     keep_alphabetical_words,
+    rare_word_pruning,
     remove_punctuation,
     tokenize_file,
 )
@@ -189,3 +190,27 @@ def test_count_words():
     answer = count_words(["A", "A", "B", "B", "A", "A", "C"])
 
     assert answer == Counter({"A": 4, "B": 2, "C": 1})
+
+
+def test_rare_word_pruning():
+    """Should remove words that appears less than 3 times."""
+    answer = rare_word_pruning(
+        list_tokens=[
+            ["the", "cat", "is", "a", "good", "cat", "with", "red", "eyes"],
+            ["the", "red", "cat", "is", "a", "nice", "cat"],
+            ["the", "red", "tie"],
+        ],
+        min_count=2,
+    )
+    assert answer == [
+        ["the"],
+        ["cat"],
+        ["cat"],
+        ["red"],
+        ["the"],
+        ["red"],
+        ["cat"],
+        ["cat"],
+        ["the"],
+        ["red"],
+    ]
