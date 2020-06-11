@@ -1,6 +1,6 @@
 # NLP-Negative-Sampling - Skip-gram (Word2Vec)
 [![CircleCI](https://circleci.com/gh/Driss31/nlp-negative-sampling.svg?style=svg)](https://circleci.com/gh/Driss31/nlp-negative-sampling)
-[![](https://img.shields.io/codecov/c/gh/Driss31/nlp-negative-sampling)](https://codecov.io/github/Driss31/nlp-negative-sampling/)
+[![codecov](https://codecov.io/gh/Driss31/nlp-negative-sampling/branch/master/graph/badge.svg)](https://codecov.io/gh/Driss31/nlp-negative-sampling)
 [![Python: 3.8.2](https://img.shields.io/badge/python-3.8.2-blue.svg)](https://www.python.org/downloads/release/python-381/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
