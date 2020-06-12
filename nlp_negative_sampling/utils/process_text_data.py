@@ -51,8 +51,6 @@ def rare_word_pruning(list_tokens: List[List[str]], min_count: int) -> List[List
     """Remove words that occur less than min_count time in file."""
     count_tokens = count_words(words=list_tokens)
     return [
-        [word]
+        [word for word in sent if count_tokens[word] > min_count]
         for sent in list_tokens
-        for word in sent
-        if count_tokens[word] > min_count
     ]

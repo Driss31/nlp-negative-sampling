@@ -203,14 +203,7 @@ def test_rare_word_pruning():
         min_count=2,
     )
     assert answer == [
-        ["the"],
-        ["cat"],
-        ["cat"],
-        ["red"],
-        ["the"],
-        ["red"],
-        ["cat"],
-        ["cat"],
-        ["the"],
-        ["red"],
+        ["the", "cat", "cat", "red"],
+        ["the", "red", "cat", "cat"],
+        ["the", "red"],
     ]
