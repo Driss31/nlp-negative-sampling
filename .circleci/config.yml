@@ -25,6 +25,7 @@ jobs:
       - run:
           name: Run tests
           command: sudo poetry run make ci-test
+      # Update coverage score.
       - run:
           bash <(curl -s https://codecov.io/bash)
 

@@ -7,7 +7,7 @@ import numpy as np
 OOV_EMBEDDING_VALUE = 0.01
 
 
-def _get_word_index(
+def _get_word_embedding(
     logger: logging.Logger,
     word: str,
     words_voc: Dict[str, int],
@@ -57,14 +57,14 @@ def words_similarity(
     dim_embed = embed_matrix.shape[1]
     default_embed = np.ones(dim_embed) * OOV_EMBEDDING_VALUE
 
-    word_1_embedding = _get_word_index(
+    word_1_embedding = _get_word_embedding(
         logger=logger,
         word=word_1,
         words_voc=words_voc,
         embed_matrix=embed_matrix,
         default_embed=default_embed,
     )
-    word_2_embedding = _get_word_index(
+    word_2_embedding = _get_word_embedding(
         logger=logger,
         word=word_2,
         words_voc=words_voc,
@@ -109,4 +109,4 @@ def find_k_most_similar(
         similarity_dict, key=similarity_dict.get, reverse=True
     )
 
-    return ranked_similar_words[:k], similarity_dict
+    return ranked_similar_words[1 : k + 1], similarity_dict
