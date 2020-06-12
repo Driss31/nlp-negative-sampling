@@ -1,31 +1,20 @@
 """Function to compute gradient."""
 import logging
+from typing import List, Tuple
 
 import numpy as np
 from scipy.special import expit
 
 
-def compute_gradient(
-    theta, embedding_dim, positive_pairs, negative_pairs, count_words, count_contexts
-):
-    """Compute gradient at init_theta for positive and negative pairs."""
-    # Initialize gradient
-    grad = np.zeros(len(theta))
-
-    # Embedding matrix of target words
-    words_matrix = theta[: embedding_dim * count_words].reshape(
-        count_words, embedding_dim
-    )
-
-    # Embedding matrix of contextes
-    contexts_matrix = theta[embedding_dim * count_words :].reshape(
-        count_contexts, embedding_dim
-    )
-
-    logging.info("Start computing gradient...")
-
-    # Positive pairs
-    logging.info("Update gradient using positive pairs...")
+def _update_pos_grad(
+    grad: np.ndarray,
+    words_matrix: np.ndarray,
+    embedding_dim: int,
+    positive_pairs: List[Tuple[int, int]],
+    count_words: int,
+    contexts_matrix: np.ndarray,
+) -> np.ndarray:
+    """Update gradient using positive pairs."""
     for p_pair in positive_pairs:
         # Get indexes of (word, context)
         word_index = p_pair[0]
@@ -46,10 +35,19 @@ def compute_gradient(
             * embedding_dim : (count_words + context_index + 1)
             * embedding_dim
         ] += df_context
-    logging.info("Done: Gradient updated using positive pairs.")
 
-    # Negative pairs
-    logging.info("Update gradient using negative pairs...")
+    return grad
+
+
+def _update_neg_gradient(
+    grad: np.ndarray,
+    words_matrix: np.ndarray,
+    embedding_dim: int,
+    negative_pairs: List[Tuple[int, int]],
+    count_words: int,
+    contexts_matrix: np.ndarray,
+) -> np.ndarray:
+    """Update gradient using negative pairs."""
     for n_pair in negative_pairs:
         # Get indexes of (word, negative context)
         word_index = n_pair[0]
@@ -70,6 +68,54 @@ def compute_gradient(
             * embedding_dim : (count_words + context_index + 1)
             * embedding_dim
         ] += df_context
-    logging.info("Done: Gradient updated using negative pairs.")
+    return grad
+
+
+def compute_gradient(
+    logger: logging.Logger,
+    theta: np.ndarray,
+    embedding_dim: int,
+    positive_pairs: List[Tuple[int, int]],
+    negative_pairs: List[Tuple[int, int]],
+    count_words: int,
+    count_contexts: int,
+):
+    """Compute gradient at init_theta for positive and negative pairs."""
+    # Initialize gradient
+    grad = np.zeros(len(theta))
+
+    # Embedding matrix of target words
+    words_matrix = theta[: embedding_dim * count_words].reshape(
+        count_words, embedding_dim
+    )
+
+    # Embedding matrix of contexts
+    contexts_matrix = theta[embedding_dim * count_words :].reshape(
+        count_contexts, embedding_dim
+    )
+
+    logger.info("Start computing gradient...")
+
+    # Positive pairs
+    grad = _update_pos_grad(
+        grad=grad,
+        words_matrix=words_matrix,
+        embedding_dim=embedding_dim,
+        positive_pairs=positive_pairs,
+        count_words=count_words,
+        contexts_matrix=contexts_matrix,
+    )
+    logger.info("Gradient updated using positive pairs.")
+
+    # Negative pairs
+    grad = _update_neg_gradient(
+        grad=grad,
+        words_matrix=words_matrix,
+        embedding_dim=embedding_dim,
+        negative_pairs=negative_pairs,
+        count_words=count_words,
+        contexts_matrix=contexts_matrix,
+    )
+    logger.info("Gradient updated using negative pairs.")
 
     return grad

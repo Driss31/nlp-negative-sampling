@@ -56,7 +56,6 @@ def test_get_negative_pairs():
         ],
         2,
     )
-    print(answer)
     assert answer == [
         (0, 0),
         (0, 0),

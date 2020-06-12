@@ -1,9 +1,6 @@
 """Tests for similarity functions."""
-import unittest.mock as mock
-
 import numpy as np
 from numpy.testing import assert_approx_equal
-import pytest
 
 from nlp_negative_sampling.libs.similarity import (
     _cosine_similarity,
@@ -11,12 +8,6 @@ from nlp_negative_sampling.libs.similarity import (
     find_k_most_similar,
     words_similarity,
 )
-
-
-@pytest.fixture
-def logger(mocker) -> mock.Mock:
-    """Mock a logger client."""
-    return mocker.Mock()
 
 
 def test_get_word_embedding_existing(logger):
