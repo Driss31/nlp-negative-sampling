@@ -97,7 +97,7 @@ Epoch 5/5
 100%|████████████████████████████████████| 11153/11153 [40:44<00:00,  4.66it/s]
 ```
 
-If the script crashes, the value of the learning rate should be decreased.
+NB: If the script crashes, the value of the learning rate should be decreased.
 
 ### Evaluation
 
