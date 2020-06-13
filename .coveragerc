@@ -7,7 +7,7 @@ branch = True
 concurrency=thread,multiprocessing
 
 # The source to measure during execution
-source = routing_engine
+source = nlp_negative_sampling
 
 # Files to leave out of measurement or reporting
 omit = tests/*
