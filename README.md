@@ -4,7 +4,7 @@
 [![Python: 3.8.2](https://img.shields.io/badge/python-3.8.2-blue.svg)](https://www.python.org/downloads/release/python-381/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-I implement a [Skip Gram model with negative-sampling](https://arxiv.org/pdf/1402.3722.pdf) from scratch. I used the log-likelihood for the loss that I optimized using Mini-Batch Gradient Ascent.
+I implemented a [Skip Gram model with negative-sampling](https://arxiv.org/pdf/1402.3722.pdf) from scratch. I used the log-likelihood for the loss that I optimized using Mini-Batch Gradient Ascent.
 
 I trained the model on a corpus of words - text file. I generated embedding of useful words then I computed similarity between some words. I also looked for the K most similar words to some pre-defined words that are in the corpus. See below.
 
