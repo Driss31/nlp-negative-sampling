@@ -103,20 +103,20 @@ class SkipGram:
 
     def save_model(self, pickle_path: str) -> None:
         """Save words and their embeddings in a pickle file."""
-        with open(pickle_path + "\\embed_matrix", "wb") as file:
+        with open(pickle_path + "embed_matrix", "wb") as file:
             mon_pickler = pickle.Pickler(file)
             mon_pickler.dump(self.embed_matrix)
-        with open(pickle_path + "\\words_voc", "wb") as file:
+        with open(pickle_path + "words_voc", "wb") as file:
             mon_pickler = pickle.Pickler(file)
             mon_pickler.dump(self.words_voc)
 
     @staticmethod
     def load_model(pickle_path: str) -> Tuple[np.ndarray, Dict[str, int]]:
         """Load Skip Gram model."""
-        with open(pickle_path + "\\embed_matrix", "rb") as file:
+        with open(pickle_path + "embed_matrix", "rb") as file:
             my_depickler = pickle.Unpickler(file)
             embed_matrix = my_depickler.load()
-        with open(pickle_path + "\\words_voc", "rb") as file:
+        with open(pickle_path + "words_voc", "rb") as file:
             my_depickler = pickle.Unpickler(file)
             words_voc = my_depickler.load()
 
