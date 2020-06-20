@@ -1,1 +1,1 @@
-"""nlp-negative-sampling test module."""
+"""nlp-negative-sampling module."""
