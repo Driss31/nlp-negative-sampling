@@ -69,7 +69,7 @@ class SkipGram:
             learning_rate=LEARNING_RATE,
             batch_size=BATCH_SIZE,
         )
-        for epoch in range(EPOCHS):
+        for epoch in range(EPOCHS):  # pragma: no cover
             self._logger.info(f"Epoch {epoch + 1} / {EPOCHS}")
 
             for batch_number in tqdm.tqdm(range(count_pos_pairs // BATCH_SIZE)):
